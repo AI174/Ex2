@@ -53,7 +53,7 @@ public class BrickerGameManager extends GameManager{
         Renderable brickImage = imageReader.readImage("assets/brick.png",false);
         Vector2 windowDimensions = windowController.getWindowDimensions();
         GameObject brick = new Brick(new Vector2(10,10),new Vector2(windowDimensions.x()-20,BRICK_HEIGHT),brickImage,new BasicCollisionStrategy());
-        gameObjects().addGameObject(brick);
+        gameObjects().addGameObject(brick,Layer.STATIC_OBJECTS);
 
     }
 
