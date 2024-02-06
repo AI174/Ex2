@@ -56,7 +56,7 @@ public class BrickerGameManager extends GameManager{
     public static void main(String[] args) {
         GameManager g = new BrickerGameManager("Bouncing Ball",new Vector2(700,500));
         g.run();
-        // just a test
+        // just a test for me
     }
 
     private void makeWalls(Vector2 windowDimensions){
