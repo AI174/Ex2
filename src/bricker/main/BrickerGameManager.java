@@ -17,17 +17,24 @@ import java.awt.*;
 import java.util.Random;
 
 public class BrickerGameManager extends GameManager{
+    private static final float SPACE_BETWEEN_BRICKS = 3;
+    private static int bricksRows = 7;
+    private static int bricksPerRow = 8;
     private static final int BRICK_HEIGHT = 15 ;
     private static final int BORDER_WIDTH = 10 ;
     private static final int PADDLE_HEIGHT = 15;
     private static final int PADDLE_WIDTH = 100;
     private static final int BALL_RADIUS = 20;
-    private static final float BALL_SPEED = 250;
+    private static final float BALL_SPEED = 100;
     public BrickerGameManager(String bouncingBall, Vector2 vector2) {
         super(bouncingBall,vector2);
     }
 
     public static void main(String[] args) {
+        if(args.length == 2){
+            bricksPerRow = Integer.parseInt(args[0]);
+            bricksRows = Integer.parseInt(args[1]);
+        }
         GameManager g = new BrickerGameManager("Bouncing Ball",new Vector2(700,500));
         g.run();
     }
@@ -49,11 +56,8 @@ public class BrickerGameManager extends GameManager{
          // background
          createBackground(imageReader, windowController);
 
-         // creating brick
-        Renderable brickImage = imageReader.readImage("assets/brick.png",false);
-        Vector2 windowDimensions = windowController.getWindowDimensions();
-        GameObject brick = new Brick(new Vector2(10,10),new Vector2(windowDimensions.x()-20,BRICK_HEIGHT),brickImage,new BasicCollisionStrategy());
-        gameObjects().addGameObject(brick,Layer.STATIC_OBJECTS);
+         // creating bricks
+        createBricks(imageReader, windowController);
 
     }
 
@@ -92,12 +96,6 @@ public class BrickerGameManager extends GameManager{
         userPaddle.setCenter(new Vector2(windowDimensions.x()/2,(int) windowDimensions.y()-30));
         gameObjects().addGameObject(userPaddle);
 
-        // creating AI paddle    *** not sure about the null ***
-//        GameObject aiPaddle = new Paddle(Vector2.ZERO,new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT),paddleImage, null,windowDimensions);
-//        aiPaddle.setCenter(new Vector2(windowDimensions.x()/2,30));
-//        gameObjects().addGameObject(aiPaddle);
-
-
     }
 
     private void makeWalls(WindowController windowController){
@@ -123,6 +121,26 @@ public class BrickerGameManager extends GameManager{
         GameObject background = new GameObject(Vector2.ZERO,windowDimensions,backgroundImage);
         background.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects().addGameObject(background, Layer.BACKGROUND);
+    }
+
+    private void createBricks(ImageReader imageReader, WindowController windowController){
+
+        Renderable brickImage = imageReader.readImage("assets/brick.png",false);
+        Vector2 windowDimensions = windowController.getWindowDimensions();
+
+        float brickLength = (windowDimensions.x() - (2* BORDER_WIDTH)) / bricksPerRow;
+        brickLength -= SPACE_BETWEEN_BRICKS;
+
+        for (int i = 0; i < bricksRows; i++) {
+            for (int j = 0; j < bricksPerRow; j++){
+                GameObject brick = new Brick(Vector2.ZERO, new Vector2(brickLength, BRICK_HEIGHT),
+                        brickImage, new BasicCollisionStrategy(gameObjects()));
+                brick.setTopLeftCorner(new Vector2(BORDER_WIDTH + ((brickLength + SPACE_BETWEEN_BRICKS) * j)
+                        , BORDER_WIDTH + ((BRICK_HEIGHT + SPACE_BETWEEN_BRICKS) * i) ));
+                gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
+            }
+
+        }
     }
 }
 
