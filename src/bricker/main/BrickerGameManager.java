@@ -27,7 +27,8 @@ public class BrickerGameManager extends GameManager{
     private static final int BALL_RADIUS = 20;
     private static final float BALL_SPEED = 100;
     private static final int BRICK_HEIGHT = 15 ;
-    private static final float SPACE_BETWEEN_BRICKS = 3;
+    private static final int SPACE_BETWEEN_BRICKS = 3;
+    private static final int BORDER_SPACE = 1;
     private static int bricksPerRow = 8;
     private static int bricksRows = 7;
     private GameObject ball;
@@ -131,13 +132,14 @@ public class BrickerGameManager extends GameManager{
 
         float brickLength = (windowDimensions.x() - (2* BORDER_WIDTH)) / bricksPerRow;
         brickLength -= SPACE_BETWEEN_BRICKS;
+        int start = BORDER_WIDTH + BORDER_SPACE;
 
         for (int i = 0; i < bricksRows; i++) {
             for (int j = 0; j < bricksPerRow; j++){
                 GameObject brick = new Brick(Vector2.ZERO, new Vector2(brickLength, BRICK_HEIGHT),
                         brickImage, new BasicCollisionStrategy(gameObjects()));
-                brick.setTopLeftCorner(new Vector2(BORDER_WIDTH + ((brickLength + SPACE_BETWEEN_BRICKS) * j)
-                        , BORDER_WIDTH + ((BRICK_HEIGHT + SPACE_BETWEEN_BRICKS) * i) ));
+                brick.setTopLeftCorner(new Vector2(start + ((brickLength + SPACE_BETWEEN_BRICKS) * j)
+                        , start + ((BRICK_HEIGHT + SPACE_BETWEEN_BRICKS) * i) ));
                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
             }
 
