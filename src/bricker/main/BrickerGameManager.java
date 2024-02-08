@@ -1,40 +1,44 @@
 package bricker.main;
 
 import bricker.brick_strategies.BasicCollisionStrategy;
-import bricker.gameobjects.Ball;
-import bricker.gameobjects.Brick;
-import bricker.gameobjects.Paddle;
+import bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
+import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.components.CoordinateSpace;
 import danogl.gui.*;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
+import danogl.gui.rendering.TextRenderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class BrickerGameManager extends GameManager{
-
-
-
-
+    private int START_HEARTS_NUMBER = 3;  // made this public
     private static final int BORDER_WIDTH = 10 ;
     private static final int PADDLE_HEIGHT = 15;
     private static final int PADDLE_WIDTH = 100;
     private static final int BALL_RADIUS = 20;
-    private static final float BALL_SPEED = 100;
+    private static final float BALL_SPEED = 200;
     private static final int BRICK_HEIGHT = 15 ;
     private static final int SPACE_BETWEEN_BRICKS = 3;
     private static final int BORDER_SPACE = 1;
+    private static final int NUMERIC_COUNTER_SIZE = 30;
+    private static final int HEART_SIZE = 30;
     private static int bricksPerRow = 8;
     private static int bricksRows = 7;
-    private GameObject ball;
+    private Ball ball;
     private Vector2 windowDimensions;
     private WindowController windowController;
-    private int livesCounter = 3;
+    private UserInputListener inputListener;
+    private Counter livesCounter; // must change
+    private Counter currBricksNumber = new Counter(0); // must change
+
 
     public BrickerGameManager(String bouncingBall, Vector2 vector2) {
         super(bouncingBall,vector2);
@@ -54,8 +58,11 @@ public class BrickerGameManager extends GameManager{
 
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         this.windowController = windowController;
+        this.inputListener = inputListener;
         windowDimensions = windowController.getWindowDimensions();
 
+        livesCounter = new Counter(START_HEARTS_NUMBER);
+//        livesCounter.increaseBy(5); //this works - if we want to add
         // creating ball
         createBall(imageReader, soundReader);
 
@@ -63,15 +70,32 @@ public class BrickerGameManager extends GameManager{
         createPaddles(imageReader, inputListener);
 
         // creating walls
-         makeWalls();
+        makeWalls();
 
-         // background
-         createBackground(imageReader);
+        // background
+        createBackground(imageReader);
 
-         // creating bricks
+        // creating bricks
         createBricks(imageReader);
 
+        // creating numeric lives counter
+        createNumericCounter();
+
+        // creating Hearts Graphic
+        createGraphicHearts(imageReader);
     }
+
+    private void createGraphicHearts(ImageReader imageReader) {
+        Renderable heartImage = imageReader.readImage("assets/heart.png",true);
+        int startX = BORDER_WIDTH + SPACE_BETWEEN_BRICKS + NUMERIC_COUNTER_SIZE;
+        int startY = (int)windowDimensions.y() - 30;
+        int[] constants = {HEART_SIZE,START_HEARTS_NUMBER, SPACE_BETWEEN_BRICKS, startX, startY};
+
+        GraphicCounter hearts = new GraphicCounter(Vector2.ZERO, new Vector2(HEART_SIZE, HEART_SIZE),
+                heartImage, gameObjects(), livesCounter, constants);
+        gameObjects().addGameObject(hearts , Layer.UI);
+    }
+
 
     @Override
     public void update(float deltaTime) {
@@ -88,7 +112,6 @@ public class BrickerGameManager extends GameManager{
         ball.setVelocity(Vector2.DOWN.mult(BALL_SPEED));
         gameObjects().addGameObject(ball);
         recenterBall();
-
 
     }
 
@@ -137,7 +160,7 @@ public class BrickerGameManager extends GameManager{
         for (int i = 0; i < bricksRows; i++) {
             for (int j = 0; j < bricksPerRow; j++){
                 GameObject brick = new Brick(Vector2.ZERO, new Vector2(brickLength, BRICK_HEIGHT),
-                        brickImage, new BasicCollisionStrategy(gameObjects()));
+                        brickImage, new BasicCollisionStrategy(gameObjects()),currBricksNumber );
                 brick.setTopLeftCorner(new Vector2(start + ((brickLength + SPACE_BETWEEN_BRICKS) * j)
                         , start + ((BRICK_HEIGHT + SPACE_BETWEEN_BRICKS) * i) ));
                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
@@ -146,21 +169,32 @@ public class BrickerGameManager extends GameManager{
         }
     }
 
+    private void createNumericCounter(){
+        TextRenderable textRenderable = new TextRenderable(Integer.toString(livesCounter.value()));
+        GameObject numericCounter = new NumericCounter(Vector2.ZERO,
+                new Vector2(NUMERIC_COUNTER_SIZE, NUMERIC_COUNTER_SIZE), null, textRenderable,livesCounter);
+        numericCounter.setTopLeftCorner(new Vector2(BORDER_WIDTH, windowDimensions.y() - 10 - NUMERIC_COUNTER_SIZE));
+        // 10 here is a space
+        gameObjects().addGameObject(numericCounter, Layer.UI);
+    }
+
+
     private void checkForGameEnd() {
         float ballHeight = ball.getCenter().y();
-
+        boolean isPressedW = inputListener.isKeyPressed(KeyEvent.VK_W);
         String prompt = "";
-        if(ballHeight < 0) { //we won
+        if(currBricksNumber.value() <= 0 || isPressedW ){ // finished all the bricks
             prompt = "You win!";
         }
-        if(ballHeight > windowDimensions.y()) { //we lost a soul or lost the game
-            livesCounter--;
+
+        else if(ballHeight > windowDimensions.y()) { //we lost a soul or lost the game
+            livesCounter.increaseBy(-1);   //livesCounter--;
             recenterBall();
-            if(livesCounter<=0){      // lost the game -> update the message
+            if(livesCounter.value() <= 0){      // lost the game -> update the message
                 prompt = "You Lose!";
             }
-
         }
+
         if(!prompt.isEmpty()) {
             prompt += " Play again?";
             if(windowController.openYesNoDialog(prompt))
@@ -183,5 +217,5 @@ public class BrickerGameManager extends GameManager{
         }
         ball.setVelocity(new Vector2(ballVelX , ballVelY));
     }
-}
 
+}

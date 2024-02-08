@@ -4,19 +4,25 @@ import bricker.brick_strategies.CollisionStrategy;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class Brick extends GameObject {
     private final CollisionStrategy collisionStrategy;
+    private Counter currBricksNumber;
 
-    public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, CollisionStrategy collisionStrategy) {
+    public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+                 CollisionStrategy collisionStrategy, Counter currBricksNumber) {
         super(topLeftCorner, dimensions, renderable);
         this.collisionStrategy = collisionStrategy;
+        this.currBricksNumber = currBricksNumber;
+        this.currBricksNumber.increaseBy(1);
     }
 
     @Override
-    public void onCollisionEnter(GameObject other, Collision collision) {
+    public void onCollisionEnter(GameObject other, Collision collision ) {
         super.onCollisionEnter(other, collision);
         collisionStrategy.onCollision(this,other);
+        currBricksNumber.increaseBy(-1);
     }
 }
