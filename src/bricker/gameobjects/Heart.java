@@ -1,9 +1,7 @@
 package bricker.gameobjects;
 
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
 import danogl.gui.rendering.Renderable;
-import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class Heart extends GameObject {

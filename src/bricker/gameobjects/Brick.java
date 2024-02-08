@@ -9,7 +9,7 @@ import danogl.util.Vector2;
 
 public class Brick extends GameObject {
     private final CollisionStrategy collisionStrategy;
-    private Counter currBricksNumber;
+    private final Counter currBricksNumber;
 
     public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
                  CollisionStrategy collisionStrategy, Counter currBricksNumber) {
