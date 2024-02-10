@@ -20,6 +20,7 @@ public class GraphicCounter extends GameObject {
     private final int startY;
     private final Renderable heartImage;
     private final Counter livesCounter;
+    private int validX;
     private int curLiveCount = 0;
     private final GameObjectCollection gameObjects;
     private final List<Heart> heartsArr = new ArrayList<>();
@@ -36,13 +37,13 @@ public class GraphicCounter extends GameObject {
         this.SPACE_BETWEEN_HEARTS = constants[2];
         this.startX = constants[3];
         this.startY = constants[4];
+        this.validX = startX;
 
         increaseHearts(START_HEART_NUMBER);
     }
 
 
     private void increaseHearts(int n){ // it updates the curLiveCount
-        int validX = startX;
         for(int i = 0; i< n ; i++) {
             Heart heart = new Heart(Vector2.ZERO, new Vector2(HEART_SIZE, HEART_SIZE), heartImage);
             heart.setTopLeftCorner(new Vector2(validX, startY));
@@ -56,6 +57,7 @@ public class GraphicCounter extends GameObject {
     private void decreaseHearts(int n){ // it updates the curLiveCount
         for(int i = 0; i < n ; i++) {
             Heart hartToDelete = this.heartsArr.get(curLiveCount-1);
+            validX -= HEART_SIZE + SPACE_BETWEEN_HEARTS;
             gameObjects.removeGameObject(hartToDelete, Layer.UI);
             heartsArr.remove(hartToDelete);
             curLiveCount--;
