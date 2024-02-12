@@ -1,0 +1,5 @@
+package bricker.brick_strategies;
+
+public enum StrategyType {
+    PUCKS_STRATEGY,DOUBLE_STRATEGY,EXTRA_PADDLE_STRATEGY,CAMERA_STRATEGY,EXTRA_LIFE_STRATEGY
+}

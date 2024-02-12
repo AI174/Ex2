@@ -1,6 +1,10 @@
 package bricker.main;
 
 import bricker.brick_strategies.BasicCollisionStrategy;
+import bricker.brick_strategies.CollisionStrategy;
+import bricker.brick_strategies.DoubleStrategy;
+import bricker.brick_strategies.PucksStrategy;
+import bricker.factories.SpecialStrategyFactory;
 import bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
@@ -21,7 +25,7 @@ public class BrickerGameManager extends GameManager{
     private static final int PADDLE_HEIGHT = 15;
     private static final int PADDLE_WIDTH = 100;
     private static final int BALL_RADIUS = 20;
-    private static final float BALL_SPEED = 150;
+    private static final float BALL_SPEED = 200;
     private static final int BRICK_HEIGHT = 15 ;
     private static final int SPACE_BETWEEN_BRICKS = 3;
     private static final int SPACE_BETWEEN_HEARTS = 4;
@@ -38,6 +42,9 @@ public class BrickerGameManager extends GameManager{
     private UserInputListener inputListener;
     private Counter livesCounter;
     private Counter currBricksNumber;
+
+    Renderable heartImage;
+    Renderable paddleImage;
 
 
     public BrickerGameManager(String bouncingBall, Vector2 vector2) {
@@ -64,6 +71,8 @@ public class BrickerGameManager extends GameManager{
         this.windowDimensions = windowController.getWindowDimensions();
         this.livesCounter = new Counter(START_HEARTS_NUMBER);
         this.currBricksNumber = new Counter(START_BRICK_NUMBER);
+        heartImage = imageReader.readImage("assets/heart.png",true);
+        paddleImage = imageReader.readImage("assets/paddle.png",true);
 
         // creating ball
         createBall(imageReader, soundReader);
@@ -78,7 +87,7 @@ public class BrickerGameManager extends GameManager{
         createBackground(imageReader);
 
         // creating bricks
-        createBricks(imageReader);
+        createBricks(imageReader,soundReader);
 
         // creating numeric lives counter
         createNumericCounter();
@@ -139,7 +148,7 @@ public class BrickerGameManager extends GameManager{
         gameObjects().addGameObject(background, Layer.BACKGROUND);
     }
 
-    private void createBricks(ImageReader imageReader){
+    private void createBricks(ImageReader imageReader,SoundReader soundReader){
 
         Renderable brickImage = imageReader.readImage("assets/brick.png",false);
 
@@ -149,8 +158,14 @@ public class BrickerGameManager extends GameManager{
 
         for (int i = 0; i < bricksRows; i++) {
             for (int j = 0; j < bricksPerRow; j++){
+                CollisionStrategy strategy = new BasicCollisionStrategy(gameObjects());
+                if(i == 1 && j == 1){
+                    strategy = new DoubleStrategy(gameObjects(),new SpecialStrategyFactory(gameObjects(),
+                            imageReader,soundReader,BALL_RADIUS,BALL_SPEED,windowDimensions,
+                            Vector2.ZERO,new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT),heartImage,paddleImage,inputListener,new Vector2(HEART_SIZE, HEART_SIZE),livesCounter));
+                }
                 GameObject brick = new Brick(Vector2.ZERO, new Vector2(brickLength, BRICK_HEIGHT),
-                        brickImage, new BasicCollisionStrategy(gameObjects()),currBricksNumber );
+                        brickImage,strategy,currBricksNumber );
                 brick.setTopLeftCorner(new Vector2(start + ((brickLength + SPACE_BETWEEN_BRICKS) * j)
                         , start + ((BRICK_HEIGHT + SPACE_BETWEEN_BRICKS) * i) ));
                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
@@ -173,7 +188,7 @@ public class BrickerGameManager extends GameManager{
         int startY = (int)windowDimensions.y() - COUNTERS_SPACE - HEART_SIZE;
         int[] constants = {HEART_SIZE,START_HEARTS_NUMBER, SPACE_BETWEEN_HEARTS, startX, startY};
         GraphicCounter hearts = new GraphicCounter(Vector2.ZERO, new Vector2(HEART_SIZE, HEART_SIZE),
-                heartImage, gameObjects(), livesCounter, constants);
+                heartImage, windowDimensions,gameObjects(), livesCounter, constants);
         gameObjects().addGameObject(hearts , Layer.UI);
     }
 

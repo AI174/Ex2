@@ -19,6 +19,7 @@ public class GraphicCounter extends GameObject {
     private final int startX;
     private final int startY;
     private final Renderable heartImage;
+    private final Vector2 windowDimensions;
     private final Counter livesCounter;
     private int validX;
     private int curLiveCount = 0;
@@ -26,9 +27,11 @@ public class GraphicCounter extends GameObject {
     private final List<Heart> heartsArr = new ArrayList<>();
 
     public GraphicCounter(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
-                          GameObjectCollection gameObjectCollection, Counter livesCounter, int[] constants){
+                          Vector2 windowDimensions, GameObjectCollection gameObjectCollection,
+                          Counter livesCounter, int[] constants){
         super(topLeftCorner, dimensions, null);
         this.heartImage = renderable;
+        this.windowDimensions = windowDimensions;
         this.gameObjects = gameObjectCollection;
         this.livesCounter = livesCounter;
 
@@ -45,7 +48,8 @@ public class GraphicCounter extends GameObject {
 
     private void increaseHearts(int n){ // it updates the curLiveCount
         for(int i = 0; i< n ; i++) {
-            Heart heart = new Heart(Vector2.ZERO, new Vector2(HEART_SIZE, HEART_SIZE), heartImage);
+            Heart heart = new Heart(Vector2.ZERO, new Vector2(HEART_SIZE, HEART_SIZE), heartImage,
+                    windowDimensions,gameObjects, livesCounter);
             heart.setTopLeftCorner(new Vector2(validX, startY));
             validX += HEART_SIZE + SPACE_BETWEEN_HEARTS;
             gameObjects.addGameObject(heart, Layer.UI);
