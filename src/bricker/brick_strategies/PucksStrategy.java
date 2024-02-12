@@ -14,10 +14,10 @@ import java.util.Random;
 
 public class PucksStrategy extends BasicCollisionStrategy{
     private final int BALL_RADIUS;
+    private final float BALL_SPEED;
     private static final int PUCKS_NUMBER = 2;
     private static final float PUCK_SIZE_FACTOR = (float) 0.75;
     private final GameObjectCollection gameObjectCollection;
-    private final Vector2 ballVelocity;
     private final Vector2 windowDimensions;
     private final Sound collisionSound;
     private final Renderable puckImage;
@@ -25,12 +25,12 @@ public class PucksStrategy extends BasicCollisionStrategy{
 
     public PucksStrategy(GameObjectCollection gameObjectCollection, ImageReader imageReader,
                          SoundReader soundReader,int ballRadius,
-                         Vector2 ballVelocity,Vector2 windowDimensions) {
+                         float ballVelocity,Vector2 windowDimensions) {
 
         super(gameObjectCollection);
         this.gameObjectCollection = gameObjectCollection;
         this.BALL_RADIUS = ballRadius;
-        this.ballVelocity = ballVelocity;
+        this.BALL_SPEED = ballVelocity;
         this.windowDimensions = windowDimensions;
         this.puckImage = imageReader.readImage("assets/mockBall.png",true);
         this.collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
@@ -55,8 +55,8 @@ public class PucksStrategy extends BasicCollisionStrategy{
     }
 
     private void setRandomVelocity(GameObject puck){
-        float ballVelX = ballVelocity.y();
-        float ballVelY = ballVelocity.y();
+        float ballVelX = BALL_SPEED;
+        float ballVelY = BALL_SPEED;
 
         Random random = new Random();
         if (random.nextBoolean())
