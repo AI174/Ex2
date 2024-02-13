@@ -1,5 +1,6 @@
 package bricker.gameobjects;
 
+import bricker.main.Constants;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
@@ -14,9 +15,9 @@ public class Heart extends GameObject {
 
     private Vector2 windowDimensions;
 
-    public Heart(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Vector2 windowDimensions
+    public Heart(Renderable renderable, Vector2 windowDimensions
             ,GameObjectCollection gameObjectCollection, Counter livesCounter) {
-        super(topLeftCorner, dimensions, renderable);
+        super(Vector2.ZERO, new Vector2(Constants.HEART_SIZE, Constants.HEART_SIZE), renderable);
         this.gameObjectCollection = gameObjectCollection;
         this.livesCounter = livesCounter;
         this.windowDimensions = windowDimensions;

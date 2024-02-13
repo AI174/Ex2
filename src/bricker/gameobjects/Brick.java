@@ -11,9 +11,9 @@ public class Brick extends GameObject {
     private final CollisionStrategy collisionStrategy;
     private final Counter currBricksNumber;
 
-    public Brick(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+    public Brick(Vector2 dimensions, Renderable renderable,
                  CollisionStrategy collisionStrategy, Counter currBricksNumber) {
-        super(topLeftCorner, dimensions, renderable);
+        super(Vector2.ZERO, dimensions, renderable);
         this.collisionStrategy = collisionStrategy;
         this.currBricksNumber = currBricksNumber;
         this.currBricksNumber.increaseBy(1);

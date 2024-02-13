@@ -1,6 +1,7 @@
 package bricker.brick_strategies;
 
 import bricker.gameobjects.Puck;
+import bricker.main.Constants;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
@@ -14,10 +15,6 @@ import java.util.Random;
 
 
 public class PucksStrategy extends BasicCollisionStrategy{
-    private final int BALL_RADIUS;
-    private final float BALL_SPEED;
-    private static final int PUCKS_NUMBER = 2;
-    private static final float PUCK_SIZE_FACTOR = (float) 0.75;
     private final GameObjectCollection gameObjectCollection;
     private final Vector2 windowDimensions;
     private final Sound collisionSound;
@@ -25,13 +22,10 @@ public class PucksStrategy extends BasicCollisionStrategy{
 
 
     public PucksStrategy(GameObjectCollection gameObjectCollection, ImageReader imageReader,
-                         SoundReader soundReader, int ballRadius,
-                         float ballVelocity, Vector2 windowDimensions, Counter currBricksNumber) {
+                         SoundReader soundReader,Vector2 windowDimensions, Counter currBricksNumber) {
 
         super(gameObjectCollection,currBricksNumber);
         this.gameObjectCollection = gameObjectCollection;
-        this.BALL_RADIUS = ballRadius;
-        this.BALL_SPEED = ballVelocity;
         this.windowDimensions = windowDimensions;
         this.puckImage = imageReader.readImage("assets/mockBall.png",true);
         this.collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
@@ -45,19 +39,19 @@ public class PucksStrategy extends BasicCollisionStrategy{
     }
 
     private void creatPuckBalls(GameObject objWithPuckStrategy) {
-        for (int i = 0; i < PUCKS_NUMBER; i++) {
-            GameObject puck = new Puck(Vector2.ZERO,new Vector2(BALL_RADIUS * PUCK_SIZE_FACTOR,
-                    BALL_RADIUS * PUCK_SIZE_FACTOR),puckImage,
-                    collisionSound,gameObjectCollection,windowDimensions);
+        for (int i = 0; i < Constants.PUCKS_NUMBER; i++) {
+            GameObject puck = new Puck(puckImage,collisionSound,gameObjectCollection,windowDimensions);
             puck.setCenter(objWithPuckStrategy.getCenter());
+            puck.setDimensions(new Vector2(Constants.BALL_RADIUS * Constants.PUCK_SIZE_FACTOR,
+                    Constants.BALL_RADIUS * Constants.PUCK_SIZE_FACTOR));
             setRandomVelocity(puck);
             gameObjectCollection.addGameObject(puck);
         }
     }
 
     private void setRandomVelocity(GameObject puck){
-        float ballVelX = BALL_SPEED;
-        float ballVelY = BALL_SPEED;
+        float ballVelX = Constants.BALL_SPEED;
+        float ballVelY = Constants.BALL_SPEED;
 
         Random random = new Random();
         if (random.nextBoolean())

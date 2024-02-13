@@ -1,5 +1,6 @@
 package bricker.gameobjects;
 
+import bricker.main.Constants;
 import danogl.GameObject;
 import danogl.gui.rendering.Renderable;
 import danogl.gui.rendering.TextRenderable;
@@ -12,9 +13,9 @@ public class NumericCounter extends GameObject {
     private final Counter livesCounter;
     private final TextRenderable textRenderable;
 
-    public NumericCounter(Vector2 topLeftCorner, Vector2 dimensions,Renderable renderable,
-                          TextRenderable textRenderable,Counter livesCounter) {
-        super(topLeftCorner, dimensions, renderable);
+    public NumericCounter(TextRenderable textRenderable,Counter livesCounter) {
+        super(Vector2.ZERO, new Vector2(Constants.NUMERIC_COUNTER_SIZE,Constants.NUMERIC_COUNTER_SIZE),
+                null);
         this.livesCounter = livesCounter;
         this.textRenderable = textRenderable;
         // to avoid down casting : this.textRenderable =(TextRenderable) renderable;

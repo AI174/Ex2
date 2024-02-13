@@ -9,8 +9,8 @@ public class Puck extends Ball{
     private final GameObjectCollection gameObjectCollection;
     private final Vector2 windowDimensions;
 
-    public Puck(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound collisionSound, GameObjectCollection gameObjectCollection,Vector2 windowDimensions) {
-        super(topLeftCorner, dimensions, renderable, collisionSound);
+    public Puck(Renderable renderable, Sound collisionSound, GameObjectCollection gameObjectCollection,Vector2 windowDimensions) {
+        super(renderable, collisionSound);
         this.gameObjectCollection = gameObjectCollection;
         this.windowDimensions = windowDimensions;
 

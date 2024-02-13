@@ -1,34 +1,23 @@
 package bricker.brick_strategies;
 
 import bricker.gameobjects.Heart;
+import bricker.main.Constants;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
-import danogl.collisions.Layer;
-import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class ExtraLifeStrategy extends BasicCollisionStrategy implements CollisionStrategy {
-    private static final float HEART_SPEED = 100;
-    private Vector2 topLeftCorner;
-    private Vector2 dimensions;
-    private Renderable heartImage;
-    private UserInputListener inputListener;
-    private GameObjectCollection gameObjectCollection;
-    private Counter livesCounter;
+    private final Renderable heartImage;
+    private final GameObjectCollection gameObjectCollection;
+    private final Counter livesCounter;
+    private final Vector2 windowDimensions;
 
-    private Vector2 windowDimensions;
-
-    public ExtraLifeStrategy(GameObjectCollection gameObjectCollection, Vector2 topLeftCorner,
-                             Vector2 dimensions, Renderable renderable, UserInputListener inputListener,
-                             Vector2 windowDimensions, Counter livesCounter,Counter currBricksNumber) {
+    public ExtraLifeStrategy(GameObjectCollection gameObjectCollection,Renderable renderable,Vector2 windowDimensions, Counter livesCounter,Counter currBricksNumber) {
         super(gameObjectCollection,currBricksNumber);
         this.gameObjectCollection = gameObjectCollection;
-        this.topLeftCorner =topLeftCorner;
-        this.dimensions = dimensions;
-        this.heartImage =renderable;
-        this.inputListener = inputListener;
+        this.heartImage = renderable;
         this.livesCounter = livesCounter;
         this.windowDimensions = windowDimensions;
     }
@@ -42,10 +31,9 @@ public class ExtraLifeStrategy extends BasicCollisionStrategy implements Collisi
 
     private void addMovingHeart(GameObject brick) {
 
-        GameObject heart = new Heart(Vector2.ZERO,dimensions,heartImage,windowDimensions,
-                gameObjectCollection, livesCounter);
+        GameObject heart = new Heart(heartImage,windowDimensions, gameObjectCollection, livesCounter);
         heart.setCenter(brick.getCenter());
-        heart.setVelocity(Vector2.DOWN.mult(HEART_SPEED));
+        heart.setVelocity(Vector2.DOWN.mult(Constants.HEART_SPEED));
         heart.setTag("MOVING_HEART"); // didn't use this until now
         gameObjectCollection.addGameObject(heart);
     }

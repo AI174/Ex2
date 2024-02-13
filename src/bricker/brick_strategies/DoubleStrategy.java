@@ -12,7 +12,8 @@ public class DoubleStrategy extends BasicCollisionStrategy{
     private final List<CollisionStrategy> strategies = new ArrayList<>();
     private final StrategyFactory strategyFactory;
 
-    public DoubleStrategy(GameObjectCollection gameObjectCollection, StrategyFactory strategyFactory, Counter currBricksNumber) {
+    public DoubleStrategy(GameObjectCollection gameObjectCollection, StrategyFactory strategyFactory,
+                          Counter currBricksNumber) {
         super(gameObjectCollection,currBricksNumber);
         this.strategyFactory = strategyFactory;
         initializeStrategies();
@@ -25,11 +26,13 @@ public class DoubleStrategy extends BasicCollisionStrategy{
         namedStrategy strategy3 = strategyFactory.getSpecialRandomStrategyWithoutDouble();
 
         // if both of first and second strategies are not DoubleStrategy -> we don't have a third strategy
-        if(strategy1.getStrategyType() != StrategyType.DOUBLE_STRATEGY && strategy2 .getStrategyType() != StrategyType.DOUBLE_STRATEGY){
+        if(strategy1.getStrategyType() != StrategyType.DOUBLE_STRATEGY &&
+                strategy2 .getStrategyType() != StrategyType.DOUBLE_STRATEGY){
             strategy3 = null;
         }
         // if both of first and second strategies are DoubleStrategy -> we have 3 non-DoubleStrategy
-        else if (strategy1.getStrategyType() == StrategyType.DOUBLE_STRATEGY && strategy2 .getStrategyType() == StrategyType.DOUBLE_STRATEGY) {
+        else if (strategy1.getStrategyType() == StrategyType.DOUBLE_STRATEGY &&
+                strategy2 .getStrategyType() == StrategyType.DOUBLE_STRATEGY) {
             strategy1 = strategyFactory.getSpecialRandomStrategyWithoutDouble();
             strategy2 = strategyFactory.getSpecialRandomStrategyWithoutDouble();
         }

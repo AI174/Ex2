@@ -9,20 +9,17 @@ import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class ExtraPaddleStrategy extends BasicCollisionStrategy implements CollisionStrategy{
-    private static final int collisionNumberToDisappear = 4;
-    private Vector2 topLeftCorner;
-    private Vector2 dimensions;
-    private Renderable renderable;
-    private UserInputListener inputListener;
-    private Vector2 windowDimensions;
+
+    private final Renderable renderable;
+    private final UserInputListener inputListener;
+    private final Vector2 windowDimensions;
     private final GameObjectCollection gameObjectCollection;
 
-    public ExtraPaddleStrategy(GameObjectCollection gameObjectCollection, Vector2 topLeftCorner, Vector2
-            dimensions, Renderable renderable, UserInputListener inputListener, Vector2 windowDimensions, Counter currBricksNumber) {
+    public ExtraPaddleStrategy(GameObjectCollection gameObjectCollection, Renderable renderable,
+                               UserInputListener inputListener, Vector2 windowDimensions,
+                               Counter currBricksNumber) {
         super(gameObjectCollection,currBricksNumber);
         this.gameObjectCollection = gameObjectCollection;
-        this.topLeftCorner = topLeftCorner;
-        this.dimensions = dimensions;
         this.renderable = renderable;
         this.inputListener = inputListener;
         this.windowDimensions = windowDimensions;
@@ -31,10 +28,9 @@ public class ExtraPaddleStrategy extends BasicCollisionStrategy implements Colli
     @Override
     public void onCollision(GameObject thisObj, GameObject otherObj) {
         super.onCollision(thisObj, otherObj); // the brick disappear
-        ExtraPaddle extraPaddle = new ExtraPaddle(
-                new Vector2(windowDimensions.x()/2, windowDimensions.y()/2),
-                dimensions, renderable, inputListener, windowDimensions, collisionNumberToDisappear,
-                gameObjectCollection);
+        ExtraPaddle extraPaddle = new ExtraPaddle(renderable, inputListener,
+                windowDimensions, gameObjectCollection);
+        extraPaddle.setCenter( new Vector2(windowDimensions.x()/2, windowDimensions.y()/2));
         for (GameObject g:gameObjectCollection){
             if (g.getTag().equals("EXTRA_PADDLE")){
                 return;
