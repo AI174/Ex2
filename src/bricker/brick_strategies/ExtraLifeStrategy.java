@@ -22,8 +22,8 @@ public class ExtraLifeStrategy extends BasicCollisionStrategy implements Collisi
 
     public ExtraLifeStrategy(GameObjectCollection gameObjectCollection, Vector2 topLeftCorner,
                              Vector2 dimensions, Renderable renderable, UserInputListener inputListener,
-                             Vector2 windowDimensions, Counter livesCounter) {
-        super(gameObjectCollection);
+                             Vector2 windowDimensions, Counter livesCounter,Counter currBricksNumber) {
+        super(gameObjectCollection,currBricksNumber);
         this.gameObjectCollection = gameObjectCollection;
         this.topLeftCorner =topLeftCorner;
         this.dimensions = dimensions;

@@ -23,6 +23,6 @@ public class Brick extends GameObject {
     public void onCollisionEnter(GameObject other, Collision collision ) {
         super.onCollisionEnter(other, collision);
         collisionStrategy.onCollision(this,other);
-        currBricksNumber.increaseBy(-1);
+
     }
 }

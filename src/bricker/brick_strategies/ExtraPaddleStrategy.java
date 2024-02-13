@@ -5,6 +5,7 @@ import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 public class ExtraPaddleStrategy extends BasicCollisionStrategy implements CollisionStrategy{
@@ -17,8 +18,8 @@ public class ExtraPaddleStrategy extends BasicCollisionStrategy implements Colli
     private final GameObjectCollection gameObjectCollection;
 
     public ExtraPaddleStrategy(GameObjectCollection gameObjectCollection, Vector2 topLeftCorner, Vector2
-            dimensions, Renderable renderable, UserInputListener inputListener, Vector2 windowDimensions) {
-        super(gameObjectCollection);
+            dimensions, Renderable renderable, UserInputListener inputListener, Vector2 windowDimensions, Counter currBricksNumber) {
+        super(gameObjectCollection,currBricksNumber);
         this.gameObjectCollection = gameObjectCollection;
         this.topLeftCorner = topLeftCorner;
         this.dimensions = dimensions;

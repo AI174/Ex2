@@ -1,10 +1,7 @@
 package bricker.main;
 
-import bricker.brick_strategies.BasicCollisionStrategy;
-import bricker.brick_strategies.CollisionStrategy;
-import bricker.brick_strategies.DoubleStrategy;
-import bricker.brick_strategies.PucksStrategy;
-import bricker.factories.SpecialStrategyFactory;
+import bricker.brick_strategies.*;
+import bricker.factories.StrategyFactory;
 import bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
@@ -120,6 +117,7 @@ public class BrickerGameManager extends GameManager{
 
         // creating user paddle
         GameObject userPaddle = new Paddle(Vector2.ZERO,new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT),paddleImage,inputListener,windowDimensions);
+        userPaddle.setTag("PADDLE");
         userPaddle.setCenter(new Vector2(windowDimensions.x()/2,(int) windowDimensions.y()-30));
         gameObjects().addGameObject(userPaddle);
 
@@ -149,6 +147,11 @@ public class BrickerGameManager extends GameManager{
     }
 
     private void createBricks(ImageReader imageReader,SoundReader soundReader){
+        StrategyFactory strategyFactory =new StrategyFactory(gameObjects(),
+                imageReader,soundReader,BALL_RADIUS,BALL_SPEED,windowDimensions,
+                Vector2.ZERO,new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT),
+                heartImage,paddleImage,inputListener,new Vector2(HEART_SIZE, HEART_SIZE),
+                livesCounter,currBricksNumber);
 
         Renderable brickImage = imageReader.readImage("assets/brick.png",false);
 
@@ -158,14 +161,10 @@ public class BrickerGameManager extends GameManager{
 
         for (int i = 0; i < bricksRows; i++) {
             for (int j = 0; j < bricksPerRow; j++){
-                CollisionStrategy strategy = new BasicCollisionStrategy(gameObjects());
-                if(i == 1 && j == 1){
-                    strategy = new DoubleStrategy(gameObjects(),new SpecialStrategyFactory(gameObjects(),
-                            imageReader,soundReader,BALL_RADIUS,BALL_SPEED,windowDimensions,
-                            Vector2.ZERO,new Vector2(PADDLE_WIDTH,PADDLE_HEIGHT),heartImage,paddleImage,inputListener,new Vector2(HEART_SIZE, HEART_SIZE),livesCounter));
-                }
+                CollisionStrategy strategy = strategyFactory.getRandomStrategy().getCollisionStrategy();
                 GameObject brick = new Brick(Vector2.ZERO, new Vector2(brickLength, BRICK_HEIGHT),
-                        brickImage,strategy,currBricksNumber );
+                        brickImage,strategy,currBricksNumber);
+
                 brick.setTopLeftCorner(new Vector2(start + ((brickLength + SPACE_BETWEEN_BRICKS) * j)
                         , start + ((BRICK_HEIGHT + SPACE_BETWEEN_BRICKS) * i) ));
                 gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);

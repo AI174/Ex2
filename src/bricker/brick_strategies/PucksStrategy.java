@@ -7,6 +7,7 @@ import danogl.gui.ImageReader;
 import danogl.gui.Sound;
 import danogl.gui.SoundReader;
 import danogl.gui.rendering.Renderable;
+import danogl.util.Counter;
 import danogl.util.Vector2;
 
 import java.util.Random;
@@ -24,10 +25,10 @@ public class PucksStrategy extends BasicCollisionStrategy{
 
 
     public PucksStrategy(GameObjectCollection gameObjectCollection, ImageReader imageReader,
-                         SoundReader soundReader,int ballRadius,
-                         float ballVelocity,Vector2 windowDimensions) {
+                         SoundReader soundReader, int ballRadius,
+                         float ballVelocity, Vector2 windowDimensions, Counter currBricksNumber) {
 
-        super(gameObjectCollection);
+        super(gameObjectCollection,currBricksNumber);
         this.gameObjectCollection = gameObjectCollection;
         this.BALL_RADIUS = ballRadius;
         this.BALL_SPEED = ballVelocity;
