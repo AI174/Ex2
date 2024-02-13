@@ -13,20 +13,20 @@ import java.util.Random;
 
 public class StrategyFactory {
     private final Counter currBricksNumber;
-    private Random rand = new Random();
-    private GameObjectCollection gameObjectCollection;
-    private ImageReader imageReader;
-    private SoundReader soundReader;
-    private int ballRadius;
-    private float ballVelocity;
-    private Vector2 windowDimensions;
-    private Vector2 topLeftCorner;
-    private Vector2 paddleDimensions;
-    private Renderable heartRenderable;
-    private Renderable paddleRenderable;
-    private UserInputListener inputListener;
-    private Vector2 heartDimensions;
-    private Counter livesCounter;
+    private final Random rand = new Random();
+    private final GameObjectCollection gameObjectCollection;
+    private final ImageReader imageReader;
+    private final SoundReader soundReader;
+    private final int ballRadius;
+    private final float ballVelocity;
+    private final Vector2 windowDimensions;
+    private final Vector2 topLeftCorner;
+    private final Vector2 paddleDimensions;
+    private final Renderable heartRenderable;
+    private final Renderable paddleRenderable;
+    private final UserInputListener inputListener;
+    private final Vector2 heartDimensions;
+    private final Counter livesCounter;
 
     public StrategyFactory(GameObjectCollection gameObjectCollection,
                            ImageReader imageReader, SoundReader soundReader, int ballRadius,
@@ -98,29 +98,38 @@ public class StrategyFactory {
     }
 
     public namedStrategy getSpecialRandomStrategyWithoutDouble() {
-        int strategyNum = rand.nextInt(3); /// 4 not 3
-        CollisionStrategy collisionStrategy = null;
-        StrategyType strategyType = null;
-        switch (strategyNum) {
-            case 0: // puck
-                collisionStrategy = new PucksStrategy(gameObjectCollection, imageReader, soundReader, ballRadius, ballVelocity, windowDimensions, currBricksNumber);
-                strategyType = StrategyType.PUCKS_STRATEGY;
-                break;
-            case 1:  // paddle
-                collisionStrategy = new ExtraPaddleStrategy(gameObjectCollection, topLeftCorner, paddleDimensions, paddleRenderable, inputListener, windowDimensions, currBricksNumber);
-                strategyType = StrategyType.EXTRA_PADDLE_STRATEGY;
-                break;
-//            case 2:  // camera
-//                collisionStrategy = new CameraStrategy();
-//                strategyType = StrategyType.CAMERA_STRATEGY;
-//                break;
-            case 2:   // heart CASE 3
-                collisionStrategy = new ExtraLifeStrategy(gameObjectCollection, topLeftCorner, heartDimensions, heartRenderable, inputListener, windowDimensions, livesCounter, currBricksNumber);
-                strategyType = StrategyType.EXTRA_LIFE_STRATEGY;
-                break;
+        namedStrategy myNamedStrategy = getSpecialRandomStrategy();
+        while (myNamedStrategy.getStrategyType() == StrategyType.DOUBLE_STRATEGY){
+            myNamedStrategy = getSpecialRandomStrategy();
         }
-        return new namedStrategy(collisionStrategy, strategyType);
+        return new namedStrategy(myNamedStrategy.getCollisionStrategy(), myNamedStrategy.getStrategyType());
     }
+    /*
+        public namedStrategy getSpecialRandomStrategyWithoutDouble() {
+              int strategyNum = rand.nextInt(3); /// 4 not 3
+              CollisionStrategy collisionStrategy = null;
+              StrategyType strategyType = null;
+              switch (strategyNum) {
+                  case 0: // puck
+                      collisionStrategy = new PucksStrategy(gameObjectCollection, imageReader, soundReader, ballRadius, ballVelocity, windowDimensions, currBricksNumber);
+                      strategyType = StrategyType.PUCKS_STRATEGY;
+                      break;
+                  case 1:  // paddle
+                      collisionStrategy = new ExtraPaddleStrategy(gameObjectCollection, topLeftCorner, paddleDimensions, paddleRenderable, inputListener, windowDimensions, currBricksNumber);
+                      strategyType = StrategyType.EXTRA_PADDLE_STRATEGY;
+                      break;
+      //            case 2:  // camera
+      //                collisionStrategy = new CameraStrategy();
+      //                strategyType = StrategyType.CAMERA_STRATEGY;
+      //                break;
+                  case 2:   // heart CASE 3
+                      collisionStrategy = new ExtraLifeStrategy(gameObjectCollection, topLeftCorner, heartDimensions, heartRenderable, inputListener, windowDimensions, livesCounter, currBricksNumber);
+                      strategyType = StrategyType.EXTRA_LIFE_STRATEGY;
+                      break;
+              }
+              return new namedStrategy(collisionStrategy, strategyType);
+          }
+     */
 
     // if u want to try stuff :)
 //    public CollisionStrategy getStrategy(StrategyType type){
