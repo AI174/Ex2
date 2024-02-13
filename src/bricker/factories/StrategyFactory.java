@@ -1,6 +1,7 @@
 package bricker.factories;
 
 import bricker.brick_strategies.*;
+import bricker.main.BrickerGameManager;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
@@ -22,10 +23,12 @@ public class StrategyFactory {
     private final UserInputListener inputListener;
     private final Renderable heartRenderable;
     private final Counter livesCounter;
+    private BrickerGameManager brickerGameManager;
 
     public StrategyFactory(GameObjectCollection gameObjectCollection, Counter currBricksNumber,
                            ImageReader imageReader, SoundReader soundReader, Vector2 windowDimensions,
-                           UserInputListener inputListener, Counter livesCounter) {
+                           UserInputListener inputListener, Counter livesCounter,BrickerGameManager
+                                   brickerGameManager ) {
         this.gameObjectCollection = gameObjectCollection;
         this.currBricksNumber = currBricksNumber;
         this.imageReader = imageReader;
@@ -35,6 +38,7 @@ public class StrategyFactory {
         this.livesCounter = livesCounter;
         this.heartRenderable = imageReader.readImage("assets/heart.png", true);
         this.paddleRenderable = imageReader.readImage("assets/paddle.png", true);
+        this.brickerGameManager = brickerGameManager;
     }
 
     public namedStrategy getRandomStrategy() {
@@ -57,7 +61,7 @@ public class StrategyFactory {
 
 
     public namedStrategy getSpecialRandomStrategy() {
-        int strategyNum = rand.nextInt(4); ///// 5 not 4
+        int strategyNum = rand.nextInt(5); ///// 5 not 4
         CollisionStrategy collisionStrategy = null;
         StrategyType strategyType = null;
         switch (strategyNum) {
@@ -69,15 +73,16 @@ public class StrategyFactory {
                 collisionStrategy = new ExtraPaddleStrategy(gameObjectCollection, paddleRenderable, inputListener, windowDimensions, currBricksNumber);
                 strategyType = StrategyType.EXTRA_PADDLE_STRATEGY;
                 break;
-//            case 2:  // camera
-//                collisionStrategy = new CameraStrategy();
-//                strategyType = StrategyType.CAMERA_STRATEGY;
-//                break;
-            case 2:   // heart CASE 3
+            case 2:  // camera
+                collisionStrategy = new CameraStrategy(gameObjectCollection, windowDimensions,
+                        brickerGameManager, currBricksNumber);
+                strategyType = StrategyType.CAMERA_STRATEGY;
+                break;
+            case 3:   // heart CASE 3
                 collisionStrategy = new ExtraLifeStrategy(gameObjectCollection, heartRenderable, windowDimensions, livesCounter, currBricksNumber);
                 strategyType = StrategyType.EXTRA_LIFE_STRATEGY;
                 break;
-            case 3:    // double CASE 4
+            case 4:    // double CASE 4
                 collisionStrategy = new DoubleStrategy(gameObjectCollection, this, currBricksNumber);
                 strategyType = StrategyType.DOUBLE_STRATEGY;
                 break;

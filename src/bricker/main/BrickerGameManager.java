@@ -87,6 +87,7 @@ public class BrickerGameManager extends GameManager{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        updateCamera();
         checkForGameEnd();
     }
 
@@ -96,6 +97,7 @@ public class BrickerGameManager extends GameManager{
         Sound collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
 
         ball = new Ball(ballImage,collisionSound);
+        ball.setTag("MAIN_BALL");
         ball.setVelocity(Vector2.DOWN.mult(Constants.BALL_SPEED));
         gameObjects().addGameObject(ball);
         recenterBall();
@@ -143,7 +145,7 @@ public class BrickerGameManager extends GameManager{
 
     private void createBricks(ImageReader imageReader,SoundReader soundReader){
         StrategyFactory strategyFactory =new StrategyFactory(gameObjects(),
-                currBricksNumber,imageReader,soundReader,windowDimensions,inputListener,livesCounter);
+                currBricksNumber,imageReader,soundReader,windowDimensions,inputListener,livesCounter, this);
 
         Renderable brickImage = imageReader.readImage("assets/brick.png",false);
 
@@ -204,6 +206,13 @@ public class BrickerGameManager extends GameManager{
         }
     }
 
+    public void updateCamera(){
+        if (ball.getCollisionCounter().value() > Constants.COLLISIONS_TO_RESET_CAMERA){
+            this.ball.getCollisionCounter().reset();
+            setCamera(null);
+        }
+
+    }
     private void recenterBall(){
         ball.setCenter(windowDimensions.mult(0.5f));
         float ballVelX = Constants.BALL_SPEED;
@@ -216,6 +225,10 @@ public class BrickerGameManager extends GameManager{
             ballVelY *= -1;
         }
         ball.setVelocity(new Vector2(ballVelX , ballVelY));
+    }
+
+    public Ball getMainBall(){
+        return this.ball;
     }
 
 }
