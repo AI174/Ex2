@@ -68,6 +68,7 @@ public class StrategyFactory {
         return new namedStrategy(collisionStrategy, strategyType);
     }
 
+
     public namedStrategy getSpecialRandomStrategy() {
         int strategyNum = rand.nextInt(4); ///// 5 not 4
         CollisionStrategy collisionStrategy = null;
