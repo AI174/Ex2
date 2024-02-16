@@ -10,17 +10,26 @@ import danogl.gui.SoundReader;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-
 import java.util.Random;
-
-
+/**
+ * This strategy extends the BasicCollisionStrategy and provides
+ * additional functionality specific to pucks, such as creating new pucks objects upon collision.
+ * @author adan.ir1, hayanat2002
+ * @see BasicCollisionStrategy
+ */
 public class PucksStrategy extends BasicCollisionStrategy{
     private final GameObjectCollection gameObjectCollection;
     private final Vector2 windowDimensions;
     private final Sound collisionSound;
     private final Renderable puckImage;
-
-
+    /**
+     * Constructs a new PucksStrategy with the specified parameters.
+     * @param gameObjectCollection The collection of game objects.
+     * @param imageReader The image reader used to load puck images.
+     * @param soundReader The sound reader used to load collision sounds.
+     * @param windowDimensions The dimensions of the game window.
+     * @param currBricksNumber The counter tracking the current number of bricks.
+     */
     public PucksStrategy(GameObjectCollection gameObjectCollection, ImageReader imageReader,
                          SoundReader soundReader,Vector2 windowDimensions, Counter currBricksNumber) {
 
@@ -31,7 +40,12 @@ public class PucksStrategy extends BasicCollisionStrategy{
         this.collisionSound = soundReader.readSound("assets/blop_cut_silenced.wav");
 
     }
-
+    /**
+     * Handles the collision between two game objects.
+     * Upon collision, this method creates new puck objects.
+     * @param thisObj The first game object involved in the collision.
+     * @param otherObj The second game object involved in the collision.
+     */
     @Override
     public void onCollision(GameObject thisObj, GameObject otherObj) {
         super.onCollision(thisObj, otherObj);
