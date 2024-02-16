@@ -1,9 +1,8 @@
+package bricker.main;
 /**
  * Represents a collection of constants used in the application.
- * @authors adan.ir1, hayanat2002
+ * @author adan.ir1, hayanat2002
  */
-package bricker.main;
-
 public class Constants {
     /**
      * The initial number of hearts at the start of the game.
