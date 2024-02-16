@@ -1,12 +1,11 @@
-/**
- * Defines the contract for collision strategies used for handling collisions
- * between game objects.
- * @authors adan.ir1, hayanat2002
- */
 package bricker.brick_strategies;
 
 import danogl.GameObject;
-
+/**
+ * Defines the contract for collision strategies used for handling collisions
+ * between game objects.
+ * @author adan.ir1, hayanat2002
+ */
 public interface CollisionStrategy {
     /**
      * Handles the collision between two game objects.
