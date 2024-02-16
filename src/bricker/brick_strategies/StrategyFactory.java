@@ -1,6 +1,7 @@
 package bricker.brick_strategies;
 
 import bricker.main.BrickerGameManager;
+import bricker.main.Constants;
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
@@ -47,8 +48,8 @@ public class StrategyFactory {
         this.windowDimensions = windowDimensions;
         this.inputListener = inputListener;
         this.livesCounter = livesCounter;
-        this.heartRenderable = imageReader.readImage("assets/heart.png", true);
-        this.paddleRenderable = imageReader.readImage("assets/paddle.png", true);
+        this.heartRenderable = imageReader.readImage(Constants.HEART_PICTURE, true);
+        this.paddleRenderable = imageReader.readImage(Constants.PADDLE_PICTURE, true);
         this.brickerGameManager = brickerGameManager;
     }
     /**
@@ -61,11 +62,11 @@ public class StrategyFactory {
         CollisionStrategy collisionStrategy = null;
         StrategyType strategyType = null;
         switch (strategyNum) {
-            case 0:
+            case Constants.BASIC:
                 collisionStrategy = new BasicCollisionStrategy(gameObjectCollection, currBricksNumber);
                 strategyType = StrategyType.BASIC_STRATEGY;
                 break;
-            case 1:
+            case Constants.SPECIAL:
                 namedStrategy myNamedStrategy = getSpecialRandomStrategy();
                 collisionStrategy = myNamedStrategy.getCollisionStrategy();
                 strategyType = myNamedStrategy.getStrategyType();
@@ -78,31 +79,31 @@ public class StrategyFactory {
      * @return A named strategy representing the special randomly generated collision strategy.
      */
     public namedStrategy getSpecialRandomStrategy() {
-        int strategyNum = rand.nextInt(5); ///// 5 not 4
+        int strategyNum = rand.nextInt(5);
         CollisionStrategy collisionStrategy = null;
         StrategyType strategyType = null;
         switch (strategyNum) {
-            case 0: // puck
+            case Constants.PUCK:
                 collisionStrategy = new PucksStrategy(gameObjectCollection, imageReader,
                         soundReader, windowDimensions, currBricksNumber);
                 strategyType = StrategyType.PUCKS_STRATEGY;
                 break;
-            case 1:  // paddle
+            case Constants.EXTRA_PADDLE:
                 collisionStrategy = new ExtraPaddleStrategy(gameObjectCollection,
                         paddleRenderable, inputListener, windowDimensions, currBricksNumber);
                 strategyType = StrategyType.EXTRA_PADDLE_STRATEGY;
                 break;
-            case 2:  // camera
+            case Constants.CAMERA:
                 collisionStrategy = new CameraStrategy(gameObjectCollection, windowDimensions,
                         brickerGameManager, currBricksNumber);
                 strategyType = StrategyType.CAMERA_STRATEGY;
                 break;
-            case 3:   // heart CASE 3
+            case Constants.EXTRA_LIFE:
                 collisionStrategy = new ExtraLifeStrategy(gameObjectCollection, heartRenderable,
                         windowDimensions, livesCounter, currBricksNumber);
                 strategyType = StrategyType.EXTRA_LIFE_STRATEGY;
                 break;
-            case 4:    // double CASE 4
+            case Constants.DOUBLE:
                 collisionStrategy = new DoubleStrategy(gameObjectCollection, this,
                         currBricksNumber);
                 strategyType = StrategyType.DOUBLE_STRATEGY;
