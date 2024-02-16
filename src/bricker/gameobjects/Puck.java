@@ -1,16 +1,15 @@
-/**
- * Represents a puck object in the game, inheriting from the Ball class.
- * Pucks are balls with additional functionality.
- * @authors adan.ir1, hayanat2002
- * @see Ball
- */
 package bricker.gameobjects;
 
 import danogl.collisions.GameObjectCollection;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-
+/**
+ * Represents a puck object in the game, inheriting from the Ball class.
+ * Pucks are balls with additional functionality.
+ * @author adan.ir1, hayanat2002
+ * @see Ball
+ */
 public class Puck extends Ball{
     private final GameObjectCollection gameObjectCollection;
     private final Vector2 windowDimensions;
