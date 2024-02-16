@@ -1,23 +1,43 @@
 package bricker.brick_strategies;
 
-import bricker.factories.StrategyFactory;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.util.Counter;
-
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Represents a strategy that combines multiple collision strategies into a single strategy.
+ * @author adan.ir1, hayanat2002
+ * @see BasicCollisionStrategy
+ */
 public class DoubleStrategy extends BasicCollisionStrategy{
     private final List<CollisionStrategy> strategies = new ArrayList<>();
     private final StrategyFactory strategyFactory;
-
+    /**
+     * Constructs a new DoubleStrategy with the specified parameters.
+     * @param gameObjectCollection The collection of game objects.
+     * @param strategyFactory The factory for creating collision strategies.
+     * @param currBricksNumber The counter tracking the current number of bricks.
+     */
     public DoubleStrategy(GameObjectCollection gameObjectCollection, StrategyFactory strategyFactory,
                           Counter currBricksNumber) {
         super(gameObjectCollection,currBricksNumber);
         this.strategyFactory = strategyFactory;
         initializeStrategies();
 
+    }
+    /**
+     * Handles the collision between two game objects.
+     * This method invokes the collision behavior of each strategy included in this double strategy.
+     * @param thisObj The first game object involved in the collision.
+     * @param otherObj The second game object involved in the collision.
+     */
+    @Override
+    public void onCollision(GameObject thisObj, GameObject otherObj) {
+        super.onCollision(thisObj, otherObj);
+        for(CollisionStrategy strategy: strategies){
+            strategy.onCollision(thisObj,otherObj);
+        }
     }
     private void initializeStrategies(){
         namedStrategy strategy1 = strategyFactory.getSpecialRandomStrategy();
@@ -50,20 +70,6 @@ public class DoubleStrategy extends BasicCollisionStrategy{
         if(strategy3!= null){
             strategies.add(strategy3.getCollisionStrategy());
         }
-
-        // if u want to try stuff as u wish :)
-//        strategies.add(specialStrategyFactory.getStrategy(StrategyType.EXTRA_PADDLE_STRATEGY));
-//        strategies.add(specialStrategyFactory.getStrategy(StrategyType.PUCKS_STRATEGY));
-//        strategies.add(specialStrategyFactory.getStrategy(StrategyType.EXTRA_LIFE_STRATEGY));
     }
-
-    @Override
-    public void onCollision(GameObject thisObj, GameObject otherObj) {
-        super.onCollision(thisObj, otherObj);
-        for(CollisionStrategy strategy: strategies){
-            strategy.onCollision(thisObj,otherObj);
-        }
-    }
-
 
 }
