@@ -1,15 +1,14 @@
-/**
- * Represents a basic collision strategy used for handling collisions between game objects.
- * @authors adan.ir1, hayanat2002
- * @see CollisionStrategy
- */
 package bricker.brick_strategies;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.util.Counter;
-
+/**
+ * Represents a basic collision strategy used for handling collisions between game objects.
+ * @author adan.ir1, hayanat2002
+ * @see CollisionStrategy
+ */
 public class BasicCollisionStrategy implements CollisionStrategy{
     private final GameObjectCollection gameObjectCollection;
     private final Counter currBricksNumber;
