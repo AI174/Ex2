@@ -1,10 +1,3 @@
-/**
- * Represents a ball object used in the game.
- * This class provides features and extends the GameObject class.
- * specific to the behavior of a ball, like sound effects and collision handling.
- * @authors adan.ir1, hayanat2002
- * @see GameObject
- */
 package bricker.gameobjects;
 
 import bricker.main.Constants;
@@ -14,7 +7,13 @@ import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
-
+/**
+ * Represents a ball object used in the game.
+ * This class provides features and extends the GameObject class.
+ * specific to the behavior of a ball, like sound effects and collision handling.
+ * @author adan.ir1, hayanat2002
+ * @see GameObject
+ */
 public class Ball extends GameObject {
     private final Sound collisionSound;
     private final Counter collisionCounter = new Counter(0);
