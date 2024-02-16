@@ -92,4 +92,48 @@ public class Constants {
      * The number of collisions required to reset the camera position.
      */
     public static final int COLLISIONS_TO_RESET_CAMERA = 4;
+    /**
+     * Represents the path for ball picture.
+     */
+    public static final String BALL_PICTURE = "assets/mockBall.png";
+    /**
+     * Represents the path for heart picture.
+     */
+    public static final String HEART_PICTURE = "assets/heart.png";
+    /**
+     * Represents the path for paddle picture.
+     */
+    public static final String PADDLE_PICTURE = "assets/paddle.png";
+    /**
+     * Represents the path for blop collision sound.
+     */
+    public static final String BLOP_SOUND = "assets/blop_cut_silenced.wav";
+    /**
+     * Represents the basic collision strategy case.
+     */
+    public static final int BASIC = 0;
+    /**
+     * Represents the special collision strategy case.
+     */
+    public static final int SPECIAL = 1;
+    /**
+     * Represents the puck collision strategy case.
+     */
+    public static final int PUCK = 0;
+    /**
+     * Represents the extra paddle collision strategy case.
+     */
+    public static final int EXTRA_PADDLE = 1;
+    /**
+     * Represents the camera collision strategy case.
+     */
+    public static final int CAMERA = 2;
+    /**
+     * Represents the extra life collision strategy case.
+     */
+    public static final int EXTRA_LIFE = 3;
+    /**
+     * Represents the double collision strategy case.
+     */
+    public static final int DOUBLE = 4;
 }
