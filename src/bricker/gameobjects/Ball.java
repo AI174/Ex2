@@ -36,8 +36,8 @@ public class Ball extends GameObject {
         return collisionCounter.value();
     }
     /**
-     * overrides the method called onCollisionEnter.
-     *The ball's velocity * is modified in response to a collision by taking the
+     * Overrides the method called onCollisionEnter.
+     * The ball's velocity is modified in response to a collision by taking the
      * collision normal into account and incrementing the collision counter A collision sound is also played.
      * @param other The other game object involved in the collision.
      * @param collision The collision data.
