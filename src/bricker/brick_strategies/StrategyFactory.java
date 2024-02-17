@@ -104,8 +104,7 @@ public class StrategyFactory {
                 strategyType = StrategyType.EXTRA_LIFE_STRATEGY;
                 break;
             case Constants.DOUBLE:
-                collisionStrategy = new DoubleStrategy(gameObjectCollection, this,
-                        currBricksNumber);
+                collisionStrategy = new DoubleStrategy(this);
                 strategyType = StrategyType.DOUBLE_STRATEGY;
                 break;
         }

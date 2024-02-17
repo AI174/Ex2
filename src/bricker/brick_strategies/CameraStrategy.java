@@ -30,6 +30,7 @@ public class CameraStrategy extends BasicCollisionStrategy{
         }
         brickerGameManager.setCamera(new Camera(ball, Vector2.ZERO, windowDimensions.mult(1.2f),
                 windowDimensions));
+        ball.resetBallCounter();
     }
 
 }

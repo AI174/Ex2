@@ -1,27 +1,22 @@
 package bricker.brick_strategies;
 
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
-import danogl.util.Counter;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Represents a strategy that combines multiple collision strategies into a single strategy.
+ * Represents a collision strategy decorator that combines multiple collision strategies
+ * into a single strategy. It executes the collision behavior of multiple strategies.
  * @author adan.ir1, hayanat2002
  * @see BasicCollisionStrategy
  */
-public class DoubleStrategy extends BasicCollisionStrategy{
+public class DoubleStrategy implements CollisionStrategyDecorator{
     private final List<CollisionStrategy> strategies = new ArrayList<>();
     private final StrategyFactory strategyFactory;
     /**
      * Constructs a new DoubleStrategy with the specified parameters.
-     * @param gameObjectCollection The collection of game objects.
      * @param strategyFactory The factory for creating collision strategies.
-     * @param currBricksNumber The counter tracking the current number of bricks.
      */
-    public DoubleStrategy(GameObjectCollection gameObjectCollection, StrategyFactory strategyFactory,
-                          Counter currBricksNumber) {
-        super(gameObjectCollection,currBricksNumber);
+    public DoubleStrategy(StrategyFactory strategyFactory) {
         this.strategyFactory = strategyFactory;
         initializeStrategies();
 
@@ -34,7 +29,6 @@ public class DoubleStrategy extends BasicCollisionStrategy{
      */
     @Override
     public void onCollision(GameObject thisObj, GameObject otherObj) {
-        super.onCollision(thisObj, otherObj);
         for(CollisionStrategy strategy: strategies){
             strategy.onCollision(thisObj,otherObj);
         }

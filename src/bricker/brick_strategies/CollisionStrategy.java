@@ -2,7 +2,7 @@ package bricker.brick_strategies;
 
 import danogl.GameObject;
 /**
- * Defines the contract for collision strategies used for handling collisions
+ * Represents a contract for collision strategies used for handling collisions
  * between game objects.
  * @author adan.ir1, hayanat2002
  */
