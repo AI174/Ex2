@@ -59,7 +59,7 @@ camera,double).
 which strategy we have. We used it to identify what strategy we have (to give them a tag).
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-5. API changes:
+5.API changes:
 a) Class Ball: we added a new function resetBallCounter in order to reset the collision counter
 from outside the class. It was necessary to add in order to allow the CameraStrategy to reset the
 number of collision of the balls when it reach the max number of collision to stop the camera effect.
