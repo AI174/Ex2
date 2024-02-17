@@ -64,15 +64,10 @@ public class PucksStrategy extends BasicCollisionStrategy{
     }
 
     private void setRandomVelocity(GameObject puck){
-        float ballVelX = Constants.BALL_SPEED;
-        float ballVelY = Constants.BALL_SPEED;
-
         Random random = new Random();
-        if (random.nextBoolean())
-            ballVelX *= (-1);
-        if (random.nextBoolean())
-            ballVelY *= (-1);
-
+        double angle = random.nextDouble() * Math.PI;
+        float ballVelX = Constants.BALL_SPEED * (float)Math.cos(angle);
+        float ballVelY = Constants.BALL_SPEED * (float)Math.sin(angle);
         puck.setVelocity(new Vector2(ballVelX,ballVelY));
     }
 }
