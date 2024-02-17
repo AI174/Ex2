@@ -1,7 +1,6 @@
 package bricker.main;
 
 import bricker.brick_strategies.*;
-import bricker.factories.StrategyFactory;
 import bricker.gameobjects.*;
 import danogl.GameManager;
 import danogl.GameObject;
@@ -207,8 +206,8 @@ public class BrickerGameManager extends GameManager{
     }
 
     public void updateCamera(){
-        if (ball.getCollisionCounter().value() > Constants.COLLISIONS_TO_RESET_CAMERA){
-            this.ball.getCollisionCounter().reset();
+        if (ball.getCollisionCounter() > Constants.COLLISIONS_TO_RESET_CAMERA){
+            ball.resetBallCounter();
             setCamera(null);
         }
 
