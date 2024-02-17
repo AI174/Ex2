@@ -1,0 +1,76 @@
+adan.ir1, hayanat2002
+211508353,325098440
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+3.Strategies:
+a) PucksStrategy Implementation: The PucksStrategy extends the BasicCollisionStrategy because it also remove
+the brick and we dealt with that in the BasicCollisionStrategy.
+Adding Pucks: it creat puck objects and centers them in the center of the brick that the ball collided with.
+**) In order to Implement this class, we added a new gameObject - Class Puck - that extends the Ball because
+a Puck is a Ball, we override the update method in order to remove the puck from the game objects
+when they fall.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+4.Double Strategy:
+Design Patterns used: Decorator.
+
+- In order to implement the double strategy, we added a new interface (Decorator)- CollisionStrategyDecorator
+that extends the CollisionStrategy interface , the double strategy is a Decorator class that implements the
+CollisionStrategyDecorator interface.
+In the constructor it takes a CollisionStrategy list, and in the onCollision method it
+loops over the strategies in the list and execute the onCollision method for each strategy.
+so basically it decorates the CollisionStrategy thus we implemented it as a Decorator.
+
+- In order to limit the double behaviour to 3, we added a function (in the Factory because it's the
+one responsible for creating strategies) called makeStrategies that works as the following:
+
+a) Initialize an strategies empty list
+
+b) Makes three Special strategies (of type *namedStrategy*) such that the first and the second strategies
+might be also a Double strategy but the third strategy is never a Double Strategy.
+how?
+In the case of the first and the second strategies we chose a random strategy
+from the 5 special strategies (puck,extra paddle,extra life,camera,double).
+In the case of the third strategy we chose a random strategy from the 4 special strategies
+(puck,extra paddle,extra life,camera).
+
+c) We check if the first and the second strategies are not a Double strategy, if so, we change the value of
+the third strategy to null(we don't have a third strategy).
+
+d) We check if the first and the second strategies are a Double strategy, if so, we know that we do have a
+third strategy that can't be Double strategy (which we already have) and that we need to
+change one of the first/second strategies to a non-double strategy (they can't be both double), we chose the
+first strategy as the Double strategy and get for it 2 non-double strategies as explained before ( we already
+have one saved in the third strategy so we need just to get another one and save it inside the first one).
+we change the second strategy to a non-Double strategy as explained before.
+
+e) If c nor d are true then we have the first/second strategy as a non-double and the other one as a double
+strategy in this case also we have a third strategy, so we check who is the one that is Double strategy
+in order to get for it 2 non-double strategies as explained before ( we already have one saved in the
+third strategy so we need just to get another one and save it inside the first one).
+
+f) add the first and the second strategies to the empty list, check if the third strategy is not null, if so
+add the third strategy to the list.
+
+***) In order to check if a strategy is a double strategy we made a new class and an enum:
+*) Enum StrategyType: include all the 6 collision strategies (basic,puck,extra paddle,extra life,
+camera,double).
+*) Class namedStrategy: associates a collision strategy with a strategy Enum, such that the enum represent
+which strategy we have. We used it to identify what strategy we have (to give them a tag).
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+5. API changes:
+a) Class Ball: we added a new function resetBallCounter in order to reset the collision counter
+from outside the class. It was necessary to add in order to allow the CameraStrategy to reset the
+number of collision of the balls when it reach the max number of collision to stop the camera effect.
+
+b) Class Constants: We added a new class that includes all the Constants (such as speed, images paths, sound
+number of max collision, etc). It was necessary to add in order to prevent sending them
+to all strategies as parameters and to have a neat code that follows the required coding style.
+
+c) Class StrategyFactory: we added a new class that is a Factory, where we make all the strategies according
+to the asked probability in the exercise. It was necessary to add in order to encapsulates the creation logic
+for various collision strategies, following the Factory design pattern. Now we can build a strategy
+for each of the bricks in BrickerGameManager class by using the factory.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
