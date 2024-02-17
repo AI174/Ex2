@@ -9,6 +9,9 @@ import danogl.gui.UserInputListener;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
 import danogl.util.Vector2;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 /**
  * Factory class for creating different collision strategies based on predefined rules.
@@ -104,7 +107,7 @@ public class StrategyFactory {
                 strategyType = StrategyType.EXTRA_LIFE_STRATEGY;
                 break;
             case Constants.DOUBLE:
-                collisionStrategy = new DoubleStrategy(this);
+                collisionStrategy = new DoubleStrategy(this.makeStrategies());
                 strategyType = StrategyType.DOUBLE_STRATEGY;
                 break;
         }
@@ -120,5 +123,40 @@ public class StrategyFactory {
             myNamedStrategy = getSpecialRandomStrategy();
         }
         return new namedStrategy(myNamedStrategy.getCollisionStrategy(), myNamedStrategy.getStrategyType());
+    }
+
+    private List<CollisionStrategy> makeStrategies(){
+        List<CollisionStrategy> strategies = new ArrayList<>();
+        namedStrategy strategy1 = getSpecialRandomStrategy();
+        namedStrategy strategy2 = getSpecialRandomStrategy();
+        // if there was a third strategy it can't be DoubleStrategy
+        namedStrategy strategy3 = getSpecialRandomStrategyWithoutDouble();
+
+        // if both of first and second strategies are not DoubleStrategy -> we don't have a third strategy
+        if(strategy1.getStrategyType() != StrategyType.DOUBLE_STRATEGY &&
+                strategy2 .getStrategyType() != StrategyType.DOUBLE_STRATEGY){
+            strategy3 = null;
+        }
+        // if both of first and second strategies are DoubleStrategy -> we have 3 non-DoubleStrategy
+        else if (strategy1.getStrategyType() == StrategyType.DOUBLE_STRATEGY &&
+                strategy2 .getStrategyType() == StrategyType.DOUBLE_STRATEGY) {
+            strategy1 = getSpecialRandomStrategyWithoutDouble();
+            strategy2 = getSpecialRandomStrategyWithoutDouble();
+        }
+        else {
+            // one of the first/second strategies are DoubleStrategy -> we have 3 non-DoubleStrategy
+            if (strategy1.getStrategyType() == StrategyType.DOUBLE_STRATEGY){
+                strategy1 = getSpecialRandomStrategyWithoutDouble();
+            }
+            else {
+                strategy2 = getSpecialRandomStrategyWithoutDouble();
+            }
+        }
+        strategies.add(strategy1.getCollisionStrategy());
+        strategies.add(strategy2.getCollisionStrategy());
+        if(strategy3!= null){
+            strategies.add(strategy3.getCollisionStrategy());
+        }
+        return strategies;
     }
 }
