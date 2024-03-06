@@ -36,8 +36,8 @@ public class PucksStrategy extends BasicCollisionStrategy{
         super(gameObjectCollection,currBricksNumber);
         this.gameObjectCollection = gameObjectCollection;
         this.windowDimensions = windowDimensions;
-        this.puckImage = imageReader.readImage(Constants.BALL_PICTURE,true);
-        this.collisionSound = soundReader.readSound(Constants.BLOP_SOUND);
+        this.puckImage = imageReader.readImage(Constants.PUCK_IMAGE_PATH,true);
+        this.collisionSound = soundReader.readSound(Constants.COLLISION_SOUND_PATH);
 
     }
     /**

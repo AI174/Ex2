@@ -1,9 +1,11 @@
 package bricker.main;
+
 /**
  * Represents a collection of constants used in the application.
  * @author adan.ir1, hayanat2002
  */
 public class Constants {
+    private Constants(){}
     /**
      * The initial number of hearts at the start of the game.
      */
@@ -93,47 +95,93 @@ public class Constants {
      */
     public static final int COLLISIONS_TO_RESET_CAMERA = 4;
     /**
-     * Represents the path for ball picture.
+     * Represents the width of the game screen.
      */
-    public static final String BALL_PICTURE = "assets/mockBall.png";
+    public static final int SCREEN_WIDTH = 700;
     /**
-     * Represents the path for heart picture.
+     * Represents the height of the game screen.
      */
-    public static final String HEART_PICTURE = "assets/heart.png";
+    public static final int SCREEN_HEIGHT = 500;
     /**
-     * Represents the path for paddle picture.
+     * Represents the name of the game.
      */
-    public static final String PADDLE_PICTURE = "assets/paddle.png";
+    public static final String GAME_NAME = "Bouncing Ball";
     /**
-     * Represents the path for blop collision sound.
+     * Represents the file path to the image of the ball.
      */
-    public static final String BLOP_SOUND = "assets/blop_cut_silenced.wav";
+    public static final String BALL_IMAGE_PATH = "assets/ball.png";
     /**
-     * Represents the basic collision strategy case.
+     * Represents the file path to the collision sound.
      */
-    public static final int BASIC = 0;
+    public static final String COLLISION_SOUND_PATH = "assets/blop_cut_silenced.wav";
     /**
-     * Represents the special collision strategy case.
+     * Represents the file path to the image of the paddle.
      */
-    public static final int SPECIAL = 1;
+    public static final String PADDLE_IMAGE_PATH = "assets/paddle.png";
     /**
-     * Represents the puck collision strategy case.
+     * Represents the file path to the background image.
      */
-    public static final int PUCK = 0;
+    public static final String BACKGROUND_IMAGE_PATH = "assets/DARK_BG2_small.jpeg";
     /**
-     * Represents the extra paddle collision strategy case.
+     * Represents the file path to the image of the brick.
      */
-    public static final int EXTRA_PADDLE = 1;
+    public static final String BRICK_IMAGE_PATH = "assets/brick.png";
     /**
-     * Represents the camera collision strategy case.
+     * Represents the file path to the image of the heart.
      */
-    public static final int CAMERA = 2;
+    public static final String HEART_IMAGE_PATH = "assets/heart.png";
     /**
-     * Represents the extra life collision strategy case.
+     * Represents the file path to the image of the puck.
      */
-    public static final int EXTRA_LIFE = 3;
+    public static final String PUCK_IMAGE_PATH = "assets/mockBall.png";
     /**
-     * Represents the double collision strategy case.
+     * Represents the main ball tag
      */
-    public static final int DOUBLE = 4;
+    public static final String MAIN_BALL_TAG = "MAIN_BALL";
+    /**
+     * Represents the main paddle tag
+     */
+    public static final String MAIN_PADDLE_TAG = "PADDLE";
+    /**
+     * Represents the extra paddle tag
+     */
+    public static final String EXTRA_PADDLE_TAG = "EXTRA_PADDLE";
+    /**
+     * Represents the moving heart tag
+     */
+    public static final String MOVING_HEART_TAG = "MOVING_HEART";
+    /**
+     * the winning prompt to show when wining
+     */
+    public static final String WINNING_PROMPT = "You win!";
+    /**
+     * the loosing prompt to show when loose
+     */
+    public static final String LOOSING_PROMPT = "You Lose!";
+    /**
+     * the question prompt to show after winning/ loosing
+     */
+    public static final String QUESTION_PROMPT = " Play again?";
+    /**
+     * set the numeric counter to green if number is greater or equal to this
+     */
+    public static final int NUMERIC_COUNTER_GREEN = 3;
+    /**
+     * set the numeric counter to yellow if number is equal to this
+     */
+    public static final int NUMERIC_COUNTER_YELLOW = 2;
+    /**
+     * Represents the space between the main paddle and the screen bottom
+     */
+    public static final int SPACE_BETWEEN_PADDLE_AND_BOTTOM = 30;
+    /**
+     * Represents the Maximum lives in the game.
+     */
+    public static final int MAX_LIVES = 4;
+    /**
+     * Represents the Paddle speed.
+     */
+    public static final float PADDLE_MOVEMENT_SPEED = 300;
+
+
 }

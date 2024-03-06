@@ -1,5 +1,58 @@
-adan.ir1, hayanat2002
+adan.ir1,hayanat2002
 211508353,325098440
+
+1.
+We chose the first option: to pass the instance returned by the gameObjects() method to the constructor of
+BasicCollisionStrategy and save it as a field, and use it to delete the brick.
+** Advantages **:
+1) Better design: sending the manger to a class that the manager manage is somehow complicated, so we try
+   to avoid it by sending only the needed parts.
+2) Modular and Less Complicated: passed the relevant part that we need, so we can remove easily, no need
+   to get all the gameManager to just remove an object. This way we prevent bugs and divide the tasks in the
+   classes.
+3) some kind of Encapsulation: so that we can only get the collection of the game Object and not manage the
+   whole game. Otherwise we will need to change the API.
+4) No needs to add changes in the API of the brickerGameManager every time we create or add object. from the
+   gameObjectCollection we can reach all the objects and be flexible without worrying about the API.
+
+** Disadvantages **:
+1) might be less clear and harder to keep track of the current and deleted game objects which might lead to
+   possible bugs.
+2) Break the Encapsulation: it the game manager responsibility to add or remove objects. in our way we add
+   using the gameCollection directly. where we get information about the game that we aren't supposed to
+   reach.
+3) Harder For Modification (Dependency): if the Game manager changed the way it adds or removes objects, our
+   code will be affected and we will need to modify.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+2.
+In the BrickerGameManager there is a counter that represents the current lives number in the game.
+
+- In order to represent the number in the numeric representation:
+    we created a class called NumericCounter to display the numeric counter in the screen, we made it inherit
+    gameObject class, so we can add it to the screen in the UI Layer and override the update method, The
+    Constructor receives 2 parameters: textRenderable and the livesCounter, and set them as private fields
+    of the class.
+    we created a private function to get the color of the numeric counter according to the livesCounter.
+    we override the update function so the we render the numeric counter on the screen in the right value
+    and color.
+
+- In order to represent the number in the Graphic representation:
+    We created 2 classes: GraphicCounter, Heart. we could have created only one class (GraphicCounter Class),
+    but in the game we will create more Hearts with many features, so we decided to start it from here. so in
+    the second part our code is more open to extensions and closed to modification.
+    - The GraphicCounter Class:
+    receives information about the object we want to render, a collection of the game objects in the game,
+    and the livesCounter. Then it calculates where to render the hearts, and creates them.
+    The constructor also creates a local int counter to the current number of lives.
+    we override the update function, that everytime we compare the local counter to the livesCounter and
+    increase/decrease the needed hearts and add/remove them to/from the gameObjectCollection.
+    we created 2 private functions: one for increasing and the other for decreasing.
+    - The Heart Class:
+    at that point the heart class was extending the gameObject and has a matching constructor to the
+    super.constructor.
+    when we extended the code we cared to distinguish between the moving heart and the UI heart using the
+    tags.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 3.Strategies:
@@ -9,6 +62,37 @@ Adding Pucks: it creat puck objects and centers them in the center of the brick 
 **) In order to Implement this class, we added a new gameObject - Class Puck - that extends the Ball because
 a Puck is a Ball, we override the update method in order to remove the puck from the game objects
 when they fall.
+
+b)ExtraPaddleStrategy: added 2 classes : ExtraPaddle, ExtraPaddleStrategy.
+ Implementation: The ExtraPaddleStrategy extends the BasicCollisionStrategy because it also removes the
+ brick and we dealt with that in the BasicCollisionStrategy.
+ Adding ExtraPaddle: when the collision (between the brick and the ball) happens, we check if there already
+ an extra Paddle in the GameObjects, if there is we don't do anything (return).
+ otherwise we create an Extra Paddle calling the constructor of the class ExtraPaddle. and we add it to
+ the game objects.
+ The ExtraPaddle Class extends the Paddle class, overrides the onCollision enter method so that after number
+ of collisions with the extra Paddle it get removed from the the game Objects Collection.
+
+c)Camera Strategy: added 1 class : CameraStrategy
+ Implementation: extends the basic strategy because it also removes the brick.
+ from the constructor we receive the bricker game manager and set it as a class field and other parameters,
+ and we override the onCollision function, so that we call super(to remove the brick), then check if the
+ camera is on or it wasn't the main ball that caused the collision  so we return(don't do anything).
+ otherwise, turn on the camera and reset the ball collision counter.
+ In order to turn the camera off after number of collisions, in the BrickerGameManager in the update function
+ we get the ball collision number and turn off the camera if we reached the limit.
+
+
+d)Extra Life Strategy: added 1 class: ExtraLifeStrategy and extended 1 class: Heart.
+ Implementation: extends the basic strategy because it also removes the brick.
+ we provide to the constructor the needed parameters that are related to the heart and the screen also the
+ game object collection and the counters. in the case of the collision we call super and create a moving
+ heart (a heart object with the movingHeart tag) and add it to the game collection.
+ in the heart class we override the shouldCollideWith function that the moving heart can only collide with
+ the main paddle. and in the onCollisionEnter we remove the moving heart from the game collection, and
+ update (increase or keep the same, check the max lives in the game) the livesCounter that was defined in
+ the BrickerGameManager. and we override the update function so that if the heart got outside the screen
+ we remove it from the game objects.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 4.Double Strategy:

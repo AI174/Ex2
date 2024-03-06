@@ -13,8 +13,11 @@ import danogl.util.Vector2;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Graphic lives counter. shows the remaining lives as icons on the screen.
+ * @author adan.ir1, hayanat2002
+ */
 public class GraphicCounter extends GameObject {
-    private final int startX;
     private final int startY;
     private final Renderable heartImage;
     private final Vector2 windowDimensions;
@@ -24,6 +27,14 @@ public class GraphicCounter extends GameObject {
     private final GameObjectCollection gameObjects;
     private final List<Heart> heartsArr = new ArrayList<>();
 
+
+    /**
+     * the constructor of the Graphic lives counter, renders the initial lives on the screen
+     * @param renderable the rendering image of the icons to show
+     * @param windowDimensions the dimensions of the screen
+     * @param gameObjectCollection collection that contains all the game objects in the game.
+     * @param livesCounter the counter of the current lives in the game.
+     */
     public GraphicCounter(Renderable renderable, Vector2 windowDimensions,
                           GameObjectCollection gameObjectCollection, Counter livesCounter){
 
@@ -33,7 +44,7 @@ public class GraphicCounter extends GameObject {
         this.gameObjects = gameObjectCollection;
         this.livesCounter = livesCounter;
 
-        this.startX = Constants.BORDER_WIDTH + Constants.COUNTERS_SPACE + Constants.NUMERIC_COUNTER_SIZE  +
+        int startX = Constants.BORDER_WIDTH + Constants.COUNTERS_SPACE + Constants.NUMERIC_COUNTER_SIZE  +
                 Constants.SPACE_BETWEEN_GRAPHIC_NUMERIC;
         this.startY = (int)windowDimensions.y() - Constants.COUNTERS_SPACE - Constants.HEART_SIZE;
         this.validX = startX;
@@ -63,7 +74,15 @@ public class GraphicCounter extends GameObject {
         }
     }
 
-
+    /**
+     * updates the graphic counter.
+     * @param deltaTime The time elapsed, in seconds, since the last frame. Can
+     *                  be used to determine a new position/velocity by multiplying
+     *                  this delta with the velocity/acceleration respectively
+     *                  and adding to the position/velocity:
+     *                  velocity += deltaTime*acceleration
+     *                  pos += deltaTime*velocity
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);

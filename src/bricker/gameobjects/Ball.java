@@ -28,7 +28,8 @@ public class Ball extends GameObject {
         this.collisionSound = collisionSound;
     }
     /**
-     * Returns the collision counter associated with the ball.
+     * Returns the collision counter associated with the ball - to use in the camera strategy.
+     * may be rested at any time of the game.
      * @return The collision counter (as an integer number).
      */
     public int getCollisionCounter() {

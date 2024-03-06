@@ -1,5 +1,6 @@
 package bricker.brick_strategies;
 
+import bricker.gameobjects.Ball;
 import bricker.main.BrickerGameManager;
 import bricker.main.Constants;
 import danogl.collisions.GameObjectCollection;
@@ -18,6 +19,13 @@ import java.util.Random;
  * @author adan.ir1, hayanat2002
  */
 public class StrategyFactory {
+    private static final int BASIC = 0;
+    private static final int SPECIAL = 1;
+    private static final int PUCK = 0;
+    private static final int EXTRA_PADDLE = 1;
+    private static final int CAMERA = 2;
+    private static final int EXTRA_LIFE = 3;
+    private static final int DOUBLE = 4;
     private final Random rand = new Random();
     private final GameObjectCollection gameObjectCollection;
     private final Counter currBricksNumber;
@@ -29,6 +37,7 @@ public class StrategyFactory {
     private final Renderable heartRenderable;
     private final Counter livesCounter;
     private final BrickerGameManager brickerGameManager;
+    private final Ball ball;
     /**
      * Constructs a new StrategyFactory with the specified parameters.
      * @param gameObjectCollection The collection of game objects.
@@ -43,7 +52,7 @@ public class StrategyFactory {
     public StrategyFactory(GameObjectCollection gameObjectCollection, Counter currBricksNumber,
                            ImageReader imageReader, SoundReader soundReader, Vector2 windowDimensions,
                            UserInputListener inputListener, Counter livesCounter,BrickerGameManager
-                                   brickerGameManager ) {
+                                   brickerGameManager, Ball ball ) {
         this.gameObjectCollection = gameObjectCollection;
         this.currBricksNumber = currBricksNumber;
         this.imageReader = imageReader;
@@ -51,9 +60,10 @@ public class StrategyFactory {
         this.windowDimensions = windowDimensions;
         this.inputListener = inputListener;
         this.livesCounter = livesCounter;
-        this.heartRenderable = imageReader.readImage(Constants.HEART_PICTURE, true);
-        this.paddleRenderable = imageReader.readImage(Constants.PADDLE_PICTURE, true);
+        this.heartRenderable = imageReader.readImage(Constants.HEART_IMAGE_PATH, true);
+        this.paddleRenderable = imageReader.readImage(Constants.PADDLE_IMAGE_PATH, true);
         this.brickerGameManager = brickerGameManager;
+        this.ball = ball;
     }
     /**
      * Generates a random strategy (the probability of getting a basic strategy is 0.5
@@ -65,11 +75,11 @@ public class StrategyFactory {
         CollisionStrategy collisionStrategy = null;
         StrategyType strategyType = null;
         switch (strategyNum) {
-            case Constants.BASIC:
+            case BASIC:
                 collisionStrategy = new BasicCollisionStrategy(gameObjectCollection, currBricksNumber);
                 strategyType = StrategyType.BASIC_STRATEGY;
                 break;
-            case Constants.SPECIAL:
+            case SPECIAL:
                 namedStrategy myNamedStrategy = getSpecialRandomStrategy();
                 collisionStrategy = myNamedStrategy.getCollisionStrategy();
                 strategyType = myNamedStrategy.getStrategyType();
@@ -86,27 +96,27 @@ public class StrategyFactory {
         CollisionStrategy collisionStrategy = null;
         StrategyType strategyType = null;
         switch (strategyNum) {
-            case Constants.PUCK:
+            case PUCK:
                 collisionStrategy = new PucksStrategy(gameObjectCollection, imageReader,
                         soundReader, windowDimensions, currBricksNumber);
                 strategyType = StrategyType.PUCKS_STRATEGY;
                 break;
-            case Constants.EXTRA_PADDLE:
+            case EXTRA_PADDLE:
                 collisionStrategy = new ExtraPaddleStrategy(gameObjectCollection,
                         paddleRenderable, inputListener, windowDimensions, currBricksNumber);
                 strategyType = StrategyType.EXTRA_PADDLE_STRATEGY;
                 break;
-            case Constants.CAMERA:
+            case CAMERA:
                 collisionStrategy = new CameraStrategy(gameObjectCollection, windowDimensions,
-                        brickerGameManager, currBricksNumber);
+                        brickerGameManager, currBricksNumber, ball);
                 strategyType = StrategyType.CAMERA_STRATEGY;
                 break;
-            case Constants.EXTRA_LIFE:
+            case EXTRA_LIFE:
                 collisionStrategy = new ExtraLifeStrategy(gameObjectCollection, heartRenderable,
                         windowDimensions, livesCounter, currBricksNumber);
                 strategyType = StrategyType.EXTRA_LIFE_STRATEGY;
                 break;
-            case Constants.DOUBLE:
+            case DOUBLE:
                 collisionStrategy = new DoubleStrategy(this.makeStrategies());
                 strategyType = StrategyType.DOUBLE_STRATEGY;
                 break;
