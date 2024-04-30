@@ -12,3 +12,4 @@ Multi-level gameplay with progressively challenging scenarios.
 Dynamic collision handling using the DanoGameLab framework.
 Special brick behaviors like multiple ball spawns and camera effects.
 Simple and intuitive user interface for maximum playability.
+![Screenshot 2024-05-01 003142](https://github.com/AI174/Ex2/assets/159155481/3cea2d33-f585-482b-b528-1b09c7dc4fc5)
