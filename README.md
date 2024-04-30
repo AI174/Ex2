@@ -1,6 +1,5 @@
 BrickerGameManager: 
-Welcome to BrickerGameManager, a Java-based game inspired by the classic Arkanoid, developed by Adan Irshead and Haya Natsheh. 
-This project was created as an exercise for the course "67125-1 Introduction to Object Oriented - 1" at the Hebrew University of Jerusalem,
+Hello! I'm Adan Irshead, and together with Haya Natsheh, we developed BrickerGameManager as part of our coursework for "67125-1 Introduction to Object Oriented - 1" at the Hebrew University of Jerusalem,
 leveraging the DanoGameLab game engine framework to implement and manage game objects dynamically.
 
 Game Overview: 
