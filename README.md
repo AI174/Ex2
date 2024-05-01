@@ -12,4 +12,9 @@ Dynamic collision handling using the DanoGameLab framework.
 Special brick behaviors like multiple ball spawns and camera effects.
 Simple and intuitive user interface for maximum playability.
 
-![Screenshot 2024-05-01 003142](https://github.com/AI174/Ex2/assets/159155481/3cea2d33-f585-482b-b528-1b09c7dc4fc5)
+
+ 
+small demo:
+
+https://github.com/AI174/Ex2/assets/159155481/d74166fc-2f02-4d9c-8d7a-dc5bf6da0cdd
+
